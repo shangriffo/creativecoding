@@ -1,0 +1,32 @@
+PImage photo;
+int smallPoint, largePoint;
+
+//we are using ellipses in this example to make the image
+void setup () {
+  size (500,500);
+  photo=loadImage("image.jpeg");
+  smallPoint=4; //find random point/shape size ranging from 4 - 40, can be from one to the extent of your image dimensions, eg in this file 500
+  largePoint=40;
+  imageMode(CENTER);
+  noStroke(); // no line around the shapes
+  background(255);
+  
+}
+
+void draw () {
+  //map-asking processing to assign the size of the circle point, position of mouse on canvas deciding the size of pixels
+  //eg lower x&y makes smaller ,, bottom left = small, top right = big
+  float pointillize =map(mouseX,0,width,smallPoint,largePoint); //4,40, "on x axis distribute the points between 4 to 40"
+  //pointillize doesnt mean anything to processing is just a custom id, 
+  //float is a number variable with decimal points
+  int x = int (random(photo.width));// int asking x value to be an interger (no decimal) to be randomly chosen from image width
+  int y = int (random(photo.height));// int asking x value to be an interger (no decimal) to be randomly chosen from image height
+color pix = photo.get(x,y); //set color value (pix is a chosen id) x,y asks to choose color from x and why value that is chosen from the image background (original)
+fill (pix,128); // taken from the pix value, and added transparency with 128
+ellipse (x,y, pointillize, pointillize); //center x and y with found value from int x/y value previously, and color based on pointillize
+
+}
+
+void keyPressed () {
+ saveFrame ("pointillize_###.jpeg") ;
+}
